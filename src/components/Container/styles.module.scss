@@ -1,0 +1,8 @@
+@use "src/styles/functions" as f;
+
+.container {
+  width: 100%;
+  max-width: f.rem(960px);
+  margin: f.rem(60px) auto;
+  box-sizing: border-box;
+}

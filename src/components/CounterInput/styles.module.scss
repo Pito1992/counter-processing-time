@@ -1,0 +1,19 @@
+@use "src/styles/functions" as f;
+@import "src/styles/variables";
+
+.container {
+  margin: f.rem(8px) 0;
+  width: f.rem(320px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .title {
+    margin-bottom: 0;
+  }
+
+  .input {
+    width: 32px;
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,16 @@
+@use "src/styles/functions" as f;
+
+// Font sizes
+$font-size-root: 16px;
+
+$font-size-m: f.rem(18px);
+$font-size-s: f.rem(14px);
+$font-size-xs: f.rem(12px);
+
+// Colors
+$color-primary: orange !default;
+$color-light: #fff !default;
+$color-dark: #1A1A1A !default;
+$color-gray: #ddd !default;
+$color-light-gray: #f2f2f2 !default;
+$color-button: #096dd9;

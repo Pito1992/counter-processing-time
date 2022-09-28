@@ -1,0 +1,30 @@
+@use "src/styles/functions" as f;
+@import "src/styles/variables";
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.5;
+  outline: none;
+  border-radius: f.rem(4px);
+  padding: f.rem(4px) f.rem(20px);
+  min-width: f.rem(80px);
+  font-size: f.rem(16px);
+  cursor: pointer;  
+  font-size: $font-size-s;
+  color: $color-dark;
+  background-color: $color-light-gray;
+  border: 1px solid $color-dark;
+
+  &.primary {
+    color: $color-light;
+    background-color: $color-button;
+    border-color: $color-button;
+  }
+
+  &:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+  }
+}

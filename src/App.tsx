@@ -1,29 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
+import Container from './components/Container';
+import CounterTable from './components/CounterTable';
+import CounterForm from './components/CounterForm';
+import PeopleWaiting from './components/PeopleWaiting';
+import Button from './components/Button';
+import { BTN_NEXT } from './constants';
+import type { ICounterData } from './types';
 import styles from './App.module.scss';
 
-function App() {
+const data: ICounterData[] = [{
+  id: 1,
+  name: 'Tony',
+  processing: undefined,
+  processed: undefined,
+  numberOfPeople: undefined
+}, {
+  id: 2,
+  name: 'Jerry',
+  processing: undefined,
+  processed: undefined,
+  numberOfPeople: undefined
+}, {
+  id: 3,
+  name: 'Elenore',
+  processing: undefined,
+  processed: undefined,
+  numberOfPeople: undefined
+}, {
+  id: 4,
+  name: 'Natasha',
+  processing: undefined,
+  processed: undefined,
+  numberOfPeople: undefined
+}]
+
+function App(): JSX.Element {
   return (
-    <div className={styles.app}>
-      <header className={styles.appHeader}>
-        <img
-          src={logo}
-          className={styles.appLogo}
-          alt="logo"
-        />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className={styles.appLinK}
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className={styles.container}>
+      <CounterTable dataSource={data} />
+      <div className={styles.tableActions}>
+        <PeopleWaiting />
+        <Button primary>{BTN_NEXT}</Button>
+      </div>
+      <CounterForm dataSource={data} />
+    </Container>
   );
 }
 

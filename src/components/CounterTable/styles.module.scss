@@ -1,0 +1,29 @@
+@use "src/styles/functions" as f;
+@import "src/styles/variables";
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    background-color: $color-primary;
+    color: $color-light;
+    border: 0;
+    text-align: left;
+    font-weight: normal;
+  }
+
+  td {
+    border: 1px solid $color-gray;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  th, td {
+    padding: f.rem(8px) f.rem(12px);
+  }
+
+  tr:nth-child(odd) {
+    background-color: $color-light-gray;
+  }
+}

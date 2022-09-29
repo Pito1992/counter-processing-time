@@ -1,13 +1,14 @@
 import React from 'react';
 import { PROCESSING_IDLE, COUNTER, PROCESSING, PROCESSED } from '../../constants';
-import type { ICounterData } from '../../types';
+import CounterContext, { ICounterContext } from '../../contexts/CounterContext';
 import styles from './styles.module.scss';
 
-interface ICounterTableProps extends React.ComponentPropsWithoutRef<"table"> {
-  dataSource: ICounterData[],
-}
+interface ICounterTableProps extends React.ComponentPropsWithoutRef<"table"> {}
 
-function CounterTableComp({ dataSource }: ICounterTableProps): JSX.Element {
+function CounterTableComp(props: ICounterTableProps): JSX.Element {
+  const { counterState } = React.useContext<ICounterContext>(CounterContext);
+  const { counterData } = counterState;
+
   return (
     <table className={styles.table}>
       <thead>
@@ -18,7 +19,7 @@ function CounterTableComp({ dataSource }: ICounterTableProps): JSX.Element {
         </tr>
       </thead>
       <tbody>
-        {dataSource.map(({ id, name, processingTask, processedTasks }) => (
+        {counterData.map(({ id, name, processingTask, processedTasks }) => (
           <tr key={id}>
             <td>{name}</td>
             <td>{processingTask || PROCESSING_IDLE}</td>

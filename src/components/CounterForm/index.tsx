@@ -8,27 +8,28 @@ import {
   COUNTER_PROCESSING_TIME,
   BTN_INIT
 } from '../../constants';
-import type { ICounterData, ICounterInitialState } from '../../types';
 import { parseStringToId } from '../../utils';
+import CounterContext, { ICounterContext } from '../../contexts/CounterContext';
+import { getNewTasks } from '../../utils/counter';
 import styles from './styles.module.scss';
 
-interface ICounterFormProps extends React.ComponentPropsWithoutRef<"form"> {
-  dataSource: ICounterData[];
-  onFormSubmit: (data: Pick<ICounterInitialState, 'startNumber' | 'nextNumber' | 'counterData'>) => void;
-}
+interface ICounterFormProps extends React.ComponentPropsWithoutRef<"form"> {}
 
 interface IFormState extends Record<string, number> {}
 
 const COUNTER_START_NUMBER_ID = parseStringToId(COUNTER_START_NUMBER_TITLE);
 
-function CounterFormComp({ dataSource, onFormSubmit }: ICounterFormProps): JSX.Element {
+function CounterFormComp(props: ICounterFormProps): JSX.Element {
+  const { counterState, setCounterState } = React.useContext<ICounterContext>(CounterContext);
+  const { counterData } = counterState;
+
   const formRef = React.useRef<HTMLFormElement>(null!);
   const [formState, setFormState] = React.useState<IFormState>({});
-  const [isInitCounter, setInitCounter] = React.useState<boolean>(false);
+  const [isFormEnable, toggleForm] = React.useState<boolean>(false);
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (isInitCounter) {
+    if (isFormEnable) {
       const eventTarget = e.target as HTMLFormElement
       const formValues: IFormState = {};
       for (let i = 0; i < eventTarget.length; i++) {
@@ -42,29 +43,36 @@ function CounterFormComp({ dataSource, onFormSubmit }: ICounterFormProps): JSX.E
       if (JSON.stringify(formValues) !== JSON.stringify(formState)) {
         const startNumber = formValues[COUNTER_START_NUMBER_ID];
         const nextNumber = startNumber === COUNTER_START_NUMBER_DEFAULT_VALUE ? startNumber : startNumber + 1;
-        onFormSubmit({
+        const { tasks, lastTask } = getNewTasks({
+          ...counterState, nextNumber
+        })
+        const newCounterData = counterData.map((data) => ({
+          ...data,
+          processingTime: formValues[data.id],
+        }))
+        setCounterState({
+          ...counterState,
           startNumber,
           nextNumber,
-          counterData: dataSource.map((data) => ({
-            ...data,
-            processingTime: formValues[data.id],
-          }))
+          counterData: newCounterData,
+          tasks,
+          lastTask,
         });
         setFormState(formValues);
       }
     }
-    setInitCounter(!isInitCounter)
+    toggleForm(!isFormEnable)
   }
 
   return (
     <form ref={formRef} className={styles.form} onSubmit={handleSubmit}>
       <div>
-        {dataSource.map(({ id, name }) => (
+        {counterData.map(({ id, name }) => (
           <CounterInput
             key={id}
             id={`${id}`}
             title={name}
-            disabled={!isInitCounter}
+            disabled={!isFormEnable}
             defaultValue={COUNTER_PROCESSING_TIME_DEFAULT_VALUE}
             min={COUNTER_PROCESSING_TIME.MIN}
             max={COUNTER_PROCESSING_TIME.MAX}
@@ -75,7 +83,7 @@ function CounterFormComp({ dataSource, onFormSubmit }: ICounterFormProps): JSX.E
           id={COUNTER_START_NUMBER_ID}
           title={COUNTER_START_NUMBER_TITLE}
           defaultValue={COUNTER_START_NUMBER_DEFAULT_VALUE}
-          disabled={!isInitCounter}
+          disabled={!isFormEnable}
         />
         <Button type="submit">{BTN_INIT}</Button>
       </div>

@@ -10,18 +10,22 @@ interface ICounterTableProps extends React.ComponentPropsWithoutRef<"table"> {
 function CounterTableComp({ dataSource }: ICounterTableProps): JSX.Element {
   return (
     <table className={styles.table}>
-      <tr>
-        <th>{COUNTER}</th>
-        <th>{PROCESSING}</th>
-        <th>{PROCESSED}</th>
-      </tr>
-      {dataSource.map(({ id, name, processing, processed }) => (
-        <tr key={id}>
-          <td>{name}</td>
-          <td>{processing || PROCESSING_IDLE}</td>
-          <td>{processed || ''}</td>
+      <thead>
+        <tr>
+          <th>{COUNTER}</th>
+          <th>{PROCESSING}</th>
+          <th>{PROCESSED}</th>
         </tr>
-      ))}
+      </thead>
+      <tbody>
+        {dataSource.map(({ id, name, processingTask, processedTasks }) => (
+          <tr key={id}>
+            <td>{name}</td>
+            <td>{processingTask || PROCESSING_IDLE}</td>
+            <td>{processedTasks.join(',')}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   )
 }

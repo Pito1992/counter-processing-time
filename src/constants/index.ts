@@ -7,4 +7,11 @@ export const PROCESSING = 'processing';
 export const PROCESSED = 'processed';
 export const COUNTER_START_NUMBER_TITLE = 'Start Number';
 export const COUNTER_START_NUMBER_DEFAULT_VALUE = 1;
-export const COUNTER_DEFAULT_VALUE = 1;
+export const COUNTER_NEXT_NUMBER_DEFAULT_VALUE = 1;
+export const COUNTER_CURRENT_NUMBER_DEFAULT_VALUE = 0;
+export const COUNTER_PROCESSING_TIME_DEFAULT_VALUE = 1;
+
+export enum COUNTER_PROCESSING_TIME {
+  MIN = 1,
+  MAX = 5,
+}
